@@ -1,0 +1,92 @@
+﻿@model List<ResultAlbumDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center ">
+        <div>
+            <h3 class="fw-bold text-dark m-0">Albümler</h3>
+            <small class="text-muted">Toplam @Model.Count içerik bulundu</small>
+        </div>
+        <a href="/User/Song/Create" class="btn btn-dark rounded-pill px-4 shadow-sm fw-medium">
+            Yeni Şarkı Ekle
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4 py-3 text-secondary small fw-bold" style="width: 80px;">ID</th>
+                        <th class="py-3 text-secondary small fw-bold">BAŞLIK</th>
+                        <th class="pe-4 py-3 text-end text-secondary small fw-bold">İŞLEMLER</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="song-row">
+                            <td class="ps-4">
+                                <span class="text-muted fw-medium small">#@item.Id</span>
+                            </td>
+                            <td>
+                                <span class="fw-semibold text-dark fs-6">@item.Title</span>
+                            </td>
+                            <td class="pe-4 text-end">
+                                <a href="/User/Song/Edit/@item.Id" class="btn btn-action btn-edit me-2">Düzenle</a>
+                                <button class="btn btn-action btn-delete">Sil</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Tablo Satırı Yumuşatma */
+    .song-row {
+        border-bottom: 1px solid #f8f9fa;
+        transition: background-color 0.2s ease;
+    }
+    .song-row:hover {
+        background-color: #fafafa;
+    }
+
+    /* Özel Beyaz Buton Tasarımı */
+    .btn-action {
+        background-color: #ffffff;
+        border: 1px solid #e9ecef;
+        color: #495057;
+        font-size: 0.85rem;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    /* Düzenle Hover: Mavi tonu */
+    .btn-edit:hover {
+        background-color: #f8f9ff;
+        border-color: #4e73df;
+        color: #4e73df;
+        box-shadow: 0 2px 5px rgba(78, 115, 223, 0.1);
+    }
+
+    /* Sil Hover: Kırmızı tonu */
+    .btn-delete:hover {
+        background-color: #fffafb;
+        border-color: #e74a3b;
+        color: #e74a3b;
+        box-shadow: 0 2px 5px rgba(231, 74, 59, 0.1);
+    }
+
+    .rounded-4 { border-radius: 12px !important; }
+    .shadow-sm { box-shadow: 0 .125rem .25rem rgba(0,0,0,.04) !important; }
+</style>

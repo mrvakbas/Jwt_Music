@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataPanel — Analitik Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Mobile overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="layout">
+
+        <!-- ── Sidebar ── -->
+        <aside class="sidebar" id="sidebar">
+
+            <div class="sidebar-header">
+                <div class="logo-mark">
+                    <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="1" y="7" width="3" height="7" rx="1" fill="white" />
+                        <rect x="6" y="4" width="3" height="10" rx="1" fill="white" opacity=".75" />
+                        <rect x="11" y="1" width="3" height="13" rx="1" fill="white" opacity=".5" />
+                    </svg>
+                </div>
+                <div class="logo-text-wrap">
+                    <div class="logo-text">DataPanel</div>
+                    <div class="logo-sub">Analitik</div>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle" title="Sidebar'ı aç/kapat">
+                    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="3" y1="6" x2="13" y2="6" />
+                        <line x1="3" y1="11" x2="9" y2="11" />
+                        <polyline points="7,9 9,11 7,13" />
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="nav">
+                <div class="nav-section">
+                    <div class="nav-section-label">Ana Menü</div>
+
+                    <div class="nav-item active" data-label="Genel Bakış">
+                        <svg class="nav-icon" viewBox="0 0 16 16">
+                            <rect x="1.5" y="1.5" width="5.5" height="5.5" rx="1.2" />
+                            <rect x="9" y="1.5" width="5.5" height="5.5" rx="1.2" opacity=".5" />
+                            <rect x="1.5" y="9" width="5.5" height="5.5" rx="1.2" opacity=".5" />
+                            <rect x="9" y="9" width="5.5" height="5.5" rx="1.2" opacity=".5" />
+                        </svg>
+                        <span class="nav-label">Genel Bakış</span>
+                    </div>
+
+                    <div class="nav-item" data-label="Analitik">
+                        <svg class="nav-icon" viewBox="0 0 16 16">
+                            <polyline points="2,12 5,8 8,10 11,5 14,7" />
+                        </svg>
+                        <span class="nav-label">Analitik</span>
+                        <span class="nav-badge">Yeni</span>
+                    </div>
+
+                    <div class="nav-item" data-label="Raporlar">
+                        <svg class="nav-icon" viewBox="0 0 16 16">
+                            <rect x="2" y="3" width="12" height="10" rx="1.5" />
+                            <line x1="5" y1="7" x2="11" y2="7" />
+                            <line x1="5" y1="10" x2="9" y2="10" />
+                        </svg>
+                        <span class="nav-label">Raporlar</span>
+                    </div>
+
+                    <div class="nav-item" data-label="Trafik Kaynakları">
+                        <svg class="nav-icon" viewBox="0 0 16 16">
+                            <ellipse cx="8" cy="8" rx="6" ry="6" />
+                            <path d="M2 8h12M8 2c-2 2-2 8 0 12M8 2c2 2 2 8 0 12" />
+                        </svg>
+                        <span class="nav-label">Trafik Kaynakları</span>
+                    </div>
+
+                    <div class="nav-item" data-label="Hedefler">
+                        <svg class="nav-icon" viewBox="0 0 16 16">
+                            <path d="M8 1L10 6H15L11 9L13 14L8 11L3 14L5 9L1 6H6Z" />
+                        </svg>
+                        <span class="nav-label">Hedefler</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-label">Sistem</div>
+
+                    <div class="nav-item" data-label="Ayarlar">
+                        <svg class="nav-icon" viewBox="0 0 16 16">
+                            <circle cx="8" cy="8" r="2.5" />
+                            <path d="M8 2v1.5M8 12.5V14M2 8h1.5M12.5 8H14M3.5 3.5l1 1M11.5 11.5l1 1M3.5 12.5l1-1M11.5 4.5l1-1" />
+                        </svg>
+                        <span class="nav-label">Ayarlar</span>
+                    </div>
+
+                    <div class="nav-item" data-label="Kullanıcılar">
+                        <svg class="nav-icon" viewBox="0 0 16 16">
+                            <circle cx="6.5" cy="5.5" r="3" />
+                            <path d="M2 14c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4" />
+                            <circle cx="12" cy="5" r="2" />
+                            <path d="M13.5 13c0-1.5-1-2.5-2.5-3" />
+                        </svg>
+                        <span class="nav-label">Kullanıcılar</span>
+                    </div>
+
+                    <div class="nav-item" data-label="Veri Kaynakları">
+                        <svg class="nav-icon" viewBox="0 0 16 16">
+                            <ellipse cx="8" cy="4" rx="5" ry="2" />
+                            <path d="M3 4v4c0 1.1 2.2 2 5 2s5-.9 5-2V4" />
+                            <path d="M3 8v4c0 1.1 2.2 2 5 2s5-.9 5-2V8" />
+                        </svg>
+                        <span class="nav-label">Veri Kaynakları</span>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="avatar">AY</div>
+                <div class="footer-info">
+                    <div class="name">Ahmet Yılmaz</div>
+                    <div class="role">Yönetici</div>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- ── Main Content ── -->
+        <main class="main">
+
+            <!-- Topbar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <button class="hamburger" id="hamburger" title="Menüyü aç">
+                            <svg viewBox="0 0 18 18">
+                                <line x1="2" y1="5" x2="16" y2="5" />
+                                <line x1="2" y1="9" x2="16" y2="9" />
+                                <line x1="2" y1="13" x2="16" y2="13" />
+                            </svg>
+                        </button>
+                        <div>
+                            <div class="page-title">Genel Bakış</div>
+                            <div class="page-sub">Son 30 gün · Mart 2026</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <select class="pill" style="appearance:none;cursor:pointer;">
+                        <option>Son 30 gün</option>
+                        <option>Son 7 gün</option>
+                        <option>Bu yıl</option>
+                    </select>
+                    <button class="btn">+ Rapor Ekle</button>
+                </div>
+            </div>
+
+            <!-- KPI Cards -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Toplam Ziyaretçi</div>
+                    <div class="kpi-value">84,320</div>
+                    <div class="kpi-trend up">↑ %12.4 geçen aya göre</div>
+                    <div class="kpi-sparkline"><canvas id="spark1"></canvas></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Aktif Kullanıcı</div>
+                    <div class="kpi-value">12,891</div>
+                    <div class="kpi-trend up">↑ %5.1 geçen aya göre</div>
+                    <div class="kpi-sparkline"><canvas id="spark2"></canvas></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Hemen Çıkma Oranı</div>
+                    <div class="kpi-value">38.2%</div>
+                    <div class="kpi-trend down">↓ %2.3 azaldı (iyi)</div>
+                    <div class="kpi-sparkline"><canvas id="spark3"></canvas></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Ort. Oturum Süresi</div>
+                    <div class="kpi-value">4:37</div>
+                    <div class="kpi-trend up">↑ 22 sn arttı</div>
+                    <div class="kpi-sparkline"><canvas id="spark4"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="charts-row">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Ziyaretçi Trendi</div>
+                            <div class="card-sub">Ekim 2025 – Mart 2026</div>
+                        </div>
+                        <div class="legend">
+                            <span class="legend-item"><span class="legend-dot" style="background:#378ADD"></span>Bu yıl</span>
+                            <span class="legend-item"><span class="legend-dot" style="background:#B5D4F4"></span>Geçen yıl</span>
+                        </div>
+                    </div>
+                    <div style="position:relative;height:200px;">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Trafik Kaynağı</div>
+                            <div class="card-sub">Kanala göre dağılım</div>
+                        </div>
+                    </div>
+                    <div style="position:relative;height:170px;">
+                        <canvas id="doughnutChart"></canvas>
+                    </div>
+                    <div class="legend" style="margin-top:12px;justify-content:center;">
+                        <span class="legend-item"><span class="legend-dot" style="background:#378ADD"></span>Organik 42%</span>
+                        <span class="legend-item"><span class="legend-dot" style="background:#85B7EB"></span>Direkt 27%</span>
+                        <span class="legend-item"><span class="legend-dot" style="background:#B5D4F4"></span>Sosyal 18%</span>
+                        <span class="legend-item"><span class="legend-dot" style="background:#D8E9F8"></span>Reklam 13%</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Row -->
+            <div class="bottom-row">
+
+                <!-- Pages Table -->
+                <div class="card">
+                    <div class="card-header" style="margin-bottom:14px;">
+                        <div>
+                            <div class="card-title">En Çok Ziyaret Edilen Sayfalar</div>
+                            <div class="card-sub">Bu ay</div>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Sayfa</th>
+                                <th>Ziyaret</th>
+                                <th>% Değişim</th>
+                                <th>Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>/anasayfa</td>
+                                <td><span class="mono">24,120</span></td>
+                                <td class="up">↑ 8.2%</td>
+                                <td><span class="badge badge-green">İyi</span></td>
+                            </tr>
+                            <tr>
+                                <td>/ürünler</td>
+                                <td><span class="mono">18,340</span></td>
+                                <td class="up">↑ 5.7%</td>
+                                <td><span class="badge badge-green">İyi</span></td>
+                            </tr>
+                            <tr>
+                                <td>/blog</td>
+                                <td><span class="mono">9,870</span></td>
+                                <td class="down">↓ 1.2%</td>
+                                <td><span class="badge badge-amber">Orta</span></td>
+                            </tr>
+                            <tr>
+                                <td>/iletişim</td>
+                                <td><span class="mono">5,210</span></td>
+                                <td class="down">↓ 3.4%</td>
+                                <td><span class="badge badge-amber">Orta</span></td>
+                            </tr>
+                            <tr>
+                                <td>/fiyatlandırma</td>
+                                <td><span class="mono">3,640</span></td>
+                                <td class="down">↓ 7.1%</td>
+                                <td><span class="badge badge-red">Düşük</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Device Chart -->
+                <div class="card">
+                    <div class="card-header" style="margin-bottom:14px;">
+                        <div>
+                            <div class="card-title">Cihaz Dağılımı</div>
+                            <div class="card-sub">Oturum payları</div>
+                        </div>
+                    </div>
+
+                    <div class="tab-row">
+                        <div class="tab active" onclick="switchTab(this,'bar')">Grafik</div>
+                        <div class="tab" onclick="switchTab(this,'progress')">Liste</div>
+                    </div>
+
+                    <div id="view-bar" style="position:relative;height:160px;">
+                        <canvas id="barChart"></canvas>
+                    </div>
+
+                    <div id="view-progress" style="display:none;" class="progress-list">
+                        <div>
+                            <div class="progress-item-label"><span>Masaüstü</span><span>49%</span></div>
+                            <div class="progress-track"><div class="progress-fill" style="width:49%;background:#378ADD;"></div></div>
+                        </div>
+                        <div>
+                            <div class="progress-item-label"><span>Mobil</span><span>39%</span></div>
+                            <div class="progress-track"><div class="progress-fill" style="width:39%;background:#85B7EB;"></div></div>
+                        </div>
+                        <div>
+                            <div class="progress-item-label"><span>Tablet</span><span>12%</span></div>
+                            <div class="progress-track"><div class="progress-fill" style="width:12%;background:#B5D4F4;"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="legend" style="margin-top:14px;">
+                        <span class="legend-item"><span class="legend-dot" style="background:#378ADD"></span>Masaüstü</span>
+                        <span class="legend-item"><span class="legend-dot" style="background:#85B7EB"></span>Mobil</span>
+                        <span class="legend-item"><span class="legend-dot" style="background:#B5D4F4"></span>Tablet</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <!-- App logic -->
+    <script src="app.js"></script>
+
+
+
+</body>
+</html>

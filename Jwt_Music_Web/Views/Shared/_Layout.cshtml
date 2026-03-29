@@ -1,0 +1,18 @@
+﻿﻿@{
+Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+@await Component.InvokeAsync("_UiHeadComponent")
+<body class="layout-column bg-dark">
+    @await Component.InvokeAsync("_UiNavbarComponent")
+    <div id="main" class="layout-row flex">
+        <div id="content" class="flex">
+            @RenderBody()
+        </div>
+    </div>
+    @await Component.InvokeAsync("_UiFooterComponent")
+    @* @await Component.InvokeAsync("_UiBottomPlayerComponent") *@
+    @await Component.InvokeAsync("_UiScriptComponent")
+</body>
+</html>

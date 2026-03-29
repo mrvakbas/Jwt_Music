@@ -1,0 +1,171 @@
+﻿@model List<ResultArtistDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-5 border-bottom ">
+        <div>
+            <h2 class="fw-bold text-dark m-0">Sanatçı Yönetimi</h2>
+            <p class="text-muted m-0 mt-1">Sistemdeki sanatçı profil verilerini buradan inceleyip düzenleyebilirsiniz.</p>
+        </div>
+        <a href="/User/Artist/Create" class="btn btn-dark rounded-pill px-4 shadow-sm fw-medium">
+            <i class="bi bi-plus-lg me-1"></i> Yeni Sanatçı Ekle
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4 py-3 text-secondary small fw-bold" style="width: 70px;">GÖRSEL</th>
+                        <th class="py-3 text-secondary small fw-bold" style="width: 60px;">ID</th>
+                        <th class="py-3 text-secondary small fw-bold" style="width: 200px;">AD SOYAD</th>
+                        <th class="py-3 text-secondary small fw-bold" style="width: 120px;">ÜLKE</th>
+                        <th class="py-3 text-secondary small fw-bold">BİYOGRAFİ</th>
+                        <th class="pe-4 py-3 text-end text-secondary small fw-bold" style="width: 160px;">İŞLEMLER</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr class="artist-row">
+                                <td class="ps-4">
+                                    <div class="artist-image-container">
+                                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                        {
+                                            <img src="@item.ImageUrl" alt="@item.Name" class="artist-image rounded-3 shadow-sm" />
+                                        }
+                                        else
+                                        {
+                                            @* Görsel yoksa gösterilecek placeholder *@
+                                            <div class="artist-image-placeholder rounded-3">
+                                                <span>@item.Name.Substring(0, 1).ToUpper()</span>
+                                            </div>
+                                        }
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="text-muted fw-medium small">#@item.Id</span>
+                                </td>
+                                <td>
+                                    <span class="fw-semibold text-dark fs-6">@item.Name</span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-light text-secondary rounded-pill fw-medium border px-3">
+                                        @item.Country
+                                    </span>
+                                </td>
+                                <td>
+                                    <p class="text-muted small mb-0 bio-text" title="@item.BioInfo">
+                                        @item.BioInfo
+                                    </p>
+                                </td>
+                                <td class="text-end">
+                                    <a href="/User/Artist/Edit/@item.Id" class="btn btn-action btn-edit">Düzenle</a>
+                                    <button class="btn btn-action btn-delete" onclick="confirmDelete('@item.Id')">Sil</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center py-5 text-muted">
+                                <i class="bi bi-people fs-1 d-block mb-3"></i>
+                                Henüz bir sanatçı kaydı bulunamadı.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Konteyner ve Genel Yapı */
+    .rounded-4 { border-radius: 1rem !important; }
+    .shadow-sm { box-shadow: 0 .125rem .25rem rgba(0,0,0,.04) !important; }
+
+    /* Tablo ve Satır Stilleri */
+    .table thead th {
+        border-bottom: 1px solid #eee;
+        letter-spacing: 0.5px;
+    }
+    .artist-row {
+        border-bottom: 1px solid #f8f9fa;
+        transition: all 0.2s ease;
+    }
+    .artist-row:hover {
+        background-color: #fbfbfb;
+        transform: translateY(-1px);
+    }
+
+    /* Görsel Stilleri (Image & Placeholder) */
+    .artist-image-container {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .artist-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Görseli sığdırmadan keser */
+    }
+    .artist-image-placeholder {
+        width: 100%;
+        height: 100%;
+        background-color: #e9ecef;
+        color: #adb5bd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    /* Biyografi Metni (2 Satır Sonra Kesme) */
+    .bio-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* En fazla 2 satır göster */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis; /* ... ekle */
+        line-height: 1.5;
+        max-width: 100%;
+    }
+
+    /* Sade Beyaz Butonlar */
+    .btn-action {
+        background-color: #ffffff;
+        border: 1px solid #e9ecef;
+        color: #495057;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.4rem 0.9rem;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-edit:hover {
+        background-color: #f8f9ff;
+        border-color: #dbe2f9;
+        color: #4e73df;
+    }
+
+    .btn-delete:hover {
+        background-color: #fffafb;
+        border-color: #fbd5d2;
+        color: #e74a3b;
+    }
+</style>

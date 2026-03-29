@@ -1,0 +1,16 @@
+﻿using Jwt_Music_Web.Dtos.PackageDtos;
+
+namespace Jwt_Music_Web.Dtos.UserDtos
+{
+    public class UserDto
+    {
+        public int Id { get; set; }
+        public string FullName { get; set; }
+        public string ImageUrl { get; set; }
+        public string Email { get; set; }
+        public string Token { get; set; }
+
+        public int PackageId { get; set; }
+        public ResultPackageDto Package { get; set; }
+    }
+}
