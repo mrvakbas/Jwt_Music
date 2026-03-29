@@ -1,7 +1,7 @@
 ## 🎵 Jwt ile Bepop Müzik Platformu
 
 Bepop, modern backend prensipleriyle geliştirilmiş, güvenli ve ölçeklenebilir bir müzik uygulamasıdır.
-Proje, kullanıcı yönetimi ve kimlik doğrulama süreçlerini JWT ve ASP.NET Core Identity ile ele alarak gerçek dünya senaryolarına uygun bir API mimarisi sunar.Ml.Net ile en popüler 5 şarkıya göre sıradaki şarkı kaç kere tıklanır ve 30 günlük süre içinde hangi günlerde günlük dinleme sayısına göre tahinleme yapılmış ve grafiklerle görselleştirilerek dashboarda listelenmiştir.
+Proje, kullanıcı yönetimi ve kimlik doğrulama süreçlerini JWT ve ASP.NET Core Identity ile ele alarak gerçek dünya senaryolarına uygun bir API mimarisi sunar. Ml.Net ile en popüler 5 şarkıya göre sıradaki şarkı kaç kere tıklanır ve 30 günlük süre içinde hangi günlerde günlük dinleme sayısına göre tahinleme yapılmış ve grafiklerle görselleştirilerek dashboarda listelenmiştir.
 
 ## ⚡ Temel Özellikler
 - JWT ile stateless authentication
