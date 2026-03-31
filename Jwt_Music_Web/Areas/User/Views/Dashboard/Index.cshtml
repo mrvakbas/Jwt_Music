@@ -50,6 +50,32 @@
     </div>
 </div>
 
+
+<div class="row mt-5 mb-5">
+    <div class="col-12">
+        <h4 class="mb-3">Dinledigin Şarkılara Göre Senin İçin Önerilenler</h4>
+    </div>
+    @if (ViewBag.RecommendedSongs != null)
+    {
+        @foreach (var song in (List<Jwt_Music.Entities.Song>)ViewBag.RecommendedSongs)
+        {
+            <div class="col-md-3">
+                <div class="card text-center shadow-sm">
+                    <img src="@song.Artist.ImageUrl" class="card-img-top p-2" style="border-radius: 20px; height: 180px; object-fit: cover;" alt="@song.Title">
+                    <div class="card-body">
+                        <h6 class="card-title text-truncate">@song.Artist.Name</h6>
+                        <p class="text-muted small">@song.Title</p>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-center w-100">Henüz yeterli veri toplanmadı, dinlemeye devam et!</p>
+    }
+</div>
+
 <div class="bottom-row">
 
     <div class="card shadow mb-4">
@@ -81,3 +107,4 @@
         </div>
     </div>
 </div>
+

@@ -9,7 +9,15 @@ namespace Jwt_Music_Web.Areas.User.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            var songs = await context.Songs.OrderByDescending(x => x.ClickCount).ToListAsync();
+            int? userPackageId = HttpContext.Session.GetInt32("PackagId");
+
+            var songs = await context.Songs
+                .Include(s => s.Artist)
+                .Include(s => s.Album)
+                .Where(s => s.Level <= userPackageId)
+                .OrderByDescending(x => x.ClickCount)
+                .ToListAsync();
+
             return View(songs);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Jwt_Music.Context;
+using Jwt_Music.Entities;
 using Jwt_Music_Api.Dtos.MLDtos; // DTO'larının olduğu namespace
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,21 @@ namespace Jwt_Music_Web.Areas.User.Controllers
     [Area("User")]
     public class DashboardController(AppDbContext context) : Controller
     {
+
+        public class SongRating
+        {
+            [Microsoft.ML.Data.KeyType(count: 5000)] 
+            public uint UserId { get; set; }
+            [Microsoft.ML.Data.KeyType(count: 5000)]
+            public uint SongId { get; set; }
+            public float Label { get; set; }
+        }
+
+        public class SongRatingPrediction
+        {
+            public float Score { get; set; }
+        }
+
         public async Task<IActionResult> Index()
         {
 
@@ -91,6 +107,77 @@ namespace Jwt_Music_Web.Areas.User.Controllers
             {
                 // Veri yetersizse veya ML hata verirse dashboard çökmesin
                 ViewBag.EstimatedSuccess = "Hesaplanamadı";
+            }
+
+
+
+            // --- 3. ML.NET Kişiselleştirilmiş Öneri Sistemi ---
+            var sessionUserId = HttpContext.Session.GetInt32("UserId");
+            var sessionPackageId = HttpContext.Session.GetInt32("PackagId");
+
+            if (sessionUserId.HasValue && sessionPackageId.HasValue)
+            {
+                try
+                {
+                    var mlContext = new MLContext();
+
+                    // Tüm dinleme geçmişini "Puan" (Rating) olarak çekiyoruz
+                    var historyData = await context.UserSongHistories
+                        .GroupBy(h => new { h.UserId, h.SongId })
+                        .Select(g => new SongRating
+                        {
+                            UserId = (uint)g.Key.UserId,
+                            SongId = (uint)g.Key.SongId,
+                            Label = (float)g.Count() // Dinleme sayısı ne kadar çoksa o kadar sevmiş demektir
+                        }).ToListAsync();
+
+                    if (historyData.Count > 0)
+                    {
+                        var trainData = mlContext.Data.LoadFromEnumerable(historyData);
+
+                        // Matrix Factorization Eğitimi
+                        var options = new Microsoft.ML.Trainers.MatrixFactorizationTrainer.Options
+                        {
+                            MatrixColumnIndexColumnName = nameof(SongRating.UserId),
+                            MatrixRowIndexColumnName = nameof(SongRating.SongId),
+                            LabelColumnName = nameof(SongRating.Label),
+                            NumberOfIterations = 20,
+                        };
+
+                        var trainer = mlContext.Recommendation().Trainers.MatrixFactorization(options);
+                        var model = trainer.Fit(trainData);
+
+                        // Kullanıcının henüz dinlemediği ama paketinin yettiği şarkıları bul
+                        var listenedSongIds = historyData
+                            .Where(x => x.UserId == (uint)sessionUserId)
+                            .Select(x => (int)x.SongId)
+                            .ToList();
+
+                        var candidateSongs = await context.Songs.Include(x => x.Artist).ThenInclude(y => y.Albums)
+                            .Where(s => s.Level <= sessionPackageId && !listenedSongIds.Contains(s.Id))
+                            .ToListAsync();
+
+                        var predictionEngine = mlContext.Model.CreatePredictionEngine<SongRating, SongRatingPrediction>(model);
+
+                        // Puan tahmini yap ve en iyi 4 şarkıyı seç
+                        var recommendedList = candidateSongs
+                            .Select(s => new
+                            {
+                                Song = s,
+                                Score = predictionEngine.Predict(new SongRating { UserId = (uint)sessionUserId, SongId = (uint)s.Id }).Score
+                            })
+                            .OrderByDescending(x => x.Score)
+                            .Take(4)
+                            .Select(x => x.Song)
+                            .ToList();
+
+                        ViewBag.RecommendedSongs = recommendedList;
+                    }
+                }
+                catch
+                {
+                    ViewBag.RecommendedSongs = new List<Song>();
+                }
             }
 
             return View();
